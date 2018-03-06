@@ -1,0 +1,123 @@
+﻿@{
+    Page.Title = "Edit a Scripture";
+
+    Layout = "~/_Layout.cshtml";
+
+    var scriptureId = "";
+    var book = "";
+    var chapter = 0; //specified in database as int type NOT string!
+    var verse = 0; //specified in database as int type NOT string!
+    var note = "";
+    DateTime date = DateTime.Now;
+
+
+    if (!IsPost)
+    {
+        // If ID is NOT empty AND ID is an Int
+        if (!Request.QueryString["ID"].IsEmpty() && Request.QueryString["ID"].IsInt())
+        {
+            // Get Id with Query, Open database, Select all from table with given ID, display info in rows
+            scriptureId = Request.QueryString["ID"];
+            var db = Database.Open("WebPagesScriptures");
+            var dbCommand = "SELECT * FROM Scriptures WHERE ID = @0";
+            var row = db.QuerySingle(dbCommand, scriptureId);
+
+            if (row != null)
+            {
+                book = row.Book;
+                chapter = row.Chapter;
+                verse = row.Verse;
+                note = row.Note;
+            }
+            else
+            {
+                Validation.AddFormError("No scripture was found for that ID.");
+            }
+        }
+        else
+        {
+            Validation.AddFormError("No scripture was selected.");
+        }
+    }
+
+    if (IsPost)
+    {
+        Validation.RequireField("scriptureid", "No scripture ID was submitted!");
+        Validation.RequireField("book", "You must enter a book title");
+        Validation.RequireField("chapter", "Chapter field is required");
+        Validation.RequireField("verse", "Please enter a verse");
+        Validation.RequireField("note", "Notes must have an entry");
+
+        scriptureId = Request.Form["scriptureId"];
+        book = Request.Form["book"];
+        note = Request.Form["note"];
+        // chapter = Request.Form["chapter"]; cannot convert from string to int
+        // verse = Request.Form["verse"; cannot convert from string to int
+
+
+        // If the Chapter field is NOT an integer, produce the validation error.
+        if (!Request.Form["chapter"].IsInt())
+        {
+            Validation.AddFormError("Please enter a whole number for Chapter");
+        }
+        else
+        {
+            // Referencing Slack Channel, where classmate mentioned the use of 'AsInt()'
+            chapter = Request.Form["chapter"].AsInt();
+        }
+
+        // If the Verse field is NOT an integer, produce the validation error.
+        if (!Request.Form["verse"].IsInt())
+        {
+            Validation.AddFormError("Please enter a whole number for Verse");
+        }
+        else
+        {
+            // Referencing Slack Channel, where classmate mentioned the use of 'AsInt()'
+            verse = Request.Form["verse"].AsInt();
+        }
+
+        // When all is well and valid within IsPost, open the database, perform the query, execute, and redirect to Scriptures.cshtml
+        if (Validation.IsValid())
+        {
+            var db = Database.Open("WebPagesScriptures");
+            var updateCommand = "UPDATE Scriptures SET book=@0, chapter=@1, verse=@2, note=@3, date=@4 WHERE Id=@5";
+            db.Execute(updateCommand, book, chapter, verse, note, date, scriptureId);
+            Response.Redirect("~/Scriptures");
+        }
+    }
+}
+
+<h2>Edit a Scripture</h2>
+@Html.ValidationSummary()
+<form method="post">
+    <fieldset>
+        <legend>Scripture Information</legend>
+
+        <p>
+            <label for="book">Book:</label>
+            <input type="text" name="book" value="@book"/>
+        </p>
+
+        <p>
+            <label for="chapter">Chapter:</label>
+            <input type="text" name="chapter" value="@chapter" pattern="[0-9]{1,3}" title="Only whole numbers greater than zero!"/>
+        </p>
+
+        <p>
+            <label for="verse">Verse:</label>
+            <input type="text" name="verse" value="@verse" pattern="[0-9]{1,3}" title="Only whole numbers greater than zero!"/>
+        </p>
+
+        <p>
+            <label for="note">Notes:</label>
+            <input type="text" name="note" value="@note"/>
+        </p>
+
+        <input type="hidden" name="scriptureid" value="@scriptureId" />
+
+        <input type="submit" name="buttonSubmit" value="Submit Changes" />
+    </fieldset>
+</form>
+
+<p><a href="~/Scriptures">Return to scriptures listing</a></p>

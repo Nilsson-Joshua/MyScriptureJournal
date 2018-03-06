@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html class="no-js" lang="">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>MSJ | @Page.Title</title>
+    <meta name="description" content="Create a personalized scripture journal!">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="~/css/normalize.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/main.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><a href="~/Scriptures">My Scripture Journal</a></h1>
+
+            <div id="menu-icon" class="menu-icon" onclick="toggleNav()">
+                <!-- Hamburger Menu Icon -->
+                <div onclick="hamSwitch(this)">
+                    <div class="ham-bar-1"></div>
+                    <div class="ham-bar-2"></div>
+                    <div class="ham-bar-3"></div>
+                </div>
+            </div>
+
+            <nav>
+                <!-- Sliding Navigation Menu -->
+                <ul id="menu-list" class="mainmenu menu">
+                    <li class="active"><a href="~/Scriptures">List</a></li>
+                    <li><a href="~/AddScriptures">Add</a></li>
+                    <li><a href="~/EditScriptures">Edit</a></li>
+                    <li><a href="~/DeleteScriptures">Delete</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            @RenderBody()
+        </main>
+        <footer>
+            &copy; @DateTime.Now.Year | My Scripture Journal | All Rights Reserved
+        </footer>
+    </div>
+    <!-- Current Navigation Script -->
+    <script src="/js/current.js"></script>
+    <!-- Toggle Slide Menu Script -->
+    <script src="~/js/toggle-menu.js"></script>
+</body>
+</html>

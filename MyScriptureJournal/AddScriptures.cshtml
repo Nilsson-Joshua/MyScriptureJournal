@@ -1,0 +1,90 @@
+﻿@{
+    Page.Title = "Add a Scripture";
+
+    Layout = "~/_Layout.cshtml";
+
+    var book = "";
+    var chapter = 0; //specified in database as int type NOT string!
+    var verse = 0; //specified in database as int type NOT string!
+    var note = "";
+    DateTime date = DateTime.Now;
+
+    if (IsPost)
+    {
+        Validation.RequireField("book", "You must enter a book title");
+        Validation.RequireField("chapter", "Chapter field is required");
+        Validation.RequireField("verse", "Please enter a verse");
+        Validation.RequireField("note", "Notes must have an entry");
+
+        book = Request.Form["book"];
+        note = Request.Form["note"];
+        // chapter = Request.Form["chapter"]; cannot convert from string to int
+        // verse = Request.Form["verse"; cannot convert from string to int
+
+        // If the Chapter field is NOT an integer, produce the validation error.
+        if (!Request.Form["chapter"].IsInt())
+        {
+            Validation.AddFormError("Please enter a whole number for Chapter");
+        }
+        else
+        {
+            // Referencing Slack Channel, where classmate mentioned the use of 'AsInt()'
+            chapter = Request.Form["chapter"].AsInt();
+        }
+
+        // If the Verse field is NOT an integer, produce the validation error.
+        if (!Request.Form["verse"].IsInt())
+        {
+            Validation.AddFormError("Please enter a whole number for Verse");
+        }
+        else
+        {
+            // Referencing Slack Channel, where classmate mentioned the use of 'AsInt()'
+            verse = Request.Form["verse"].AsInt();
+        }
+
+        // When all is well and valid within IsPost, open the database, perform the query, execute, and redirect to Scriptures.cshtml
+        if (Validation.IsValid())
+        {
+            var db = Database.Open("WebPagesScriptures");
+            var insertCommand = "INSERT INTO Scriptures (book, chapter, verse, note, date) VALUES(@0, @1, @2, @3, @4)";
+            db.Execute(insertCommand, book, chapter, verse, note, date);
+            Response.Redirect("~/Scriptures");
+        }
+    }
+}
+
+<h2>Add a Scripture</h2>
+@Html.ValidationSummary()
+<form method="post">
+    <fieldset>
+        <legend>Scripture Information</legend>
+        <p>
+            <label for="book">Book:</label>
+            <input type="text" name="book" value="@Request.Form["book"]"/>
+            @Html.ValidationMessage("book")
+        </p>
+
+        <p>
+            <label for="chapter">Chapter:</label>
+            <input type="text" name="chapter" value="@Request.Form["chapter"]" pattern="[0-9]{1,3}" title="Only whole numbers greater than zero!"/>
+            @Html.ValidationMessage("chapter")
+        </p>
+
+        <p>
+            <label for="verse">Verse:</label>
+            <input type="text" name="verse" value="@Request.Form["verse"]"  pattern="[0-9]{1,3}" title="Only whole numbers greater than zero!"/>
+            @Html.ValidationMessage("verse")
+        </p>
+
+        <p>
+            <label for="note">Notes:</label>
+            <input type="text" name="note" value="@Request.Form["note"]"/>
+            @Html.ValidationMessage("note")
+        </p>
+
+        <input type="submit" name="buttonSubmit" value="Add Scripture" />
+    </fieldset>
+</form>
+
+<p><a href="~/Scriptures">Return to scriptures listing</a></p>

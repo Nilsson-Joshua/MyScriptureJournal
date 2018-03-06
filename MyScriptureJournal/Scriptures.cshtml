@@ -1,0 +1,59 @@
+﻿@{
+    Page.Title = "Scripture List";
+
+    Layout = "~/_Layout.cshtml";
+
+    var db = Database.Open("WebPagesScriptures");
+    var selectCommand = "SELECT * FROM Scriptures";
+    var searchTerm = "";
+
+    if (!Request.QueryString["searchBook"].IsEmpty())
+    {
+        selectCommand = "SELECT * FROM Scriptures WHERE Book = @0";
+        searchTerm = Request.QueryString["searchBook"];
+    }
+
+    if (!Request.QueryString["searchNote"].IsEmpty())
+    {
+        selectCommand = "SELECT * FROM Scriptures WHERE Note LIKE @0";
+        searchTerm = "%" + Request["searchNote"] + "%";
+    }
+
+    var selectedData = db.Query(selectCommand, searchTerm);
+    var grid = new WebGrid(source: selectedData, defaultSort: "Book", rowsPerPage: 5);
+}
+
+<h2>Scripture List</h2>
+<form method="get">
+    <div>
+        <label for="searchBook">Book to look for:</label>
+        <!-- @Request.QueryString  makes the value "sticky" within the input field after you submit -->
+        <input type="text" name="searchBook" value="@Request.QueryString["searchBook"]" />
+        <input type="Submit" value="Search Book" /><br />
+    </div>
+
+    <div>
+        <label for="SearchNote">Note contains the following:</label>
+        <!-- @Request.QueryString  makes the value "sticky" within the input field after you submit -->
+        <input type="text" name="searchNote" value="@Request.QueryString["searchNote"]" />
+        <input type="Submit" value="Search Notes" /><br />
+    </div>
+</form>
+
+<div>
+    @grid.GetHtml(
+                tableStyle: "grid",
+                headerStyle: "head",
+                alternatingRowStyle: "alt",
+                columns: grid.Columns(
+                    grid.Column(format: @<a href="~/EditScriptures?id=@item.ID">Edit</a>),
+                            grid.Column("Book", canSort:true),
+                            grid.Column("Chapter", canSort:false),
+                            grid.Column("Verse", canSort:false),
+                            grid.Column("Note", canSort:false),
+                            grid.Column("Date", header: "Submit Date", canSort: true),
+                            grid.Column(format: @<a href="~/DeleteScriptures?id=@item.ID">Delete</a>)))
+</div>
+<p>
+    <a href="~/AddScriptures.cshtml">Add a Scripture</a>
+</p>

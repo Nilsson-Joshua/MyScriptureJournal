@@ -1,0 +1,82 @@
+﻿@{
+    Page.Title = "Delete a Scripture";
+
+    Layout = "~/_Layout.cshtml";
+
+    var scriptureId = "";
+    var book = "";
+    var chapter = 0; // Initialized as integer for "Cannot implicitly convert type 'int' to 'string'"
+    var verse = 0; // Initialized as integer for "Cannot implicitly convert type 'int' to 'string'"
+    var note = "";
+
+    if (!IsPost)
+    {
+        // If ID is NOT empty AND ID is an Int
+        if (!Request.QueryString["ID"].IsEmpty() && Request.QueryString["ID"].IsInt())
+        {
+            // Get Id with Query, Open database, Select all from table with given ID, display info in rows
+            scriptureId = Request.QueryString["ID"];
+            var db = Database.Open("WebPagesScriptures");
+            var dbCommand = "SELECT * FROM Scriptures WHERE ID = @0";
+            var row = db.QuerySingle(dbCommand, scriptureId);
+            if (row != null)
+            {
+                book = row.Book;
+                chapter = row.Chapter;
+                verse = row.Verse;
+                note = row.Note;
+            }
+            else
+            {
+                Validation.AddFormError("No scripture was found for that ID.");
+            }
+        }
+        else
+        {
+            Validation.AddFormError("No scripture was found for that ID.");
+        }
+    }
+
+    // If IsPost and NOT empty, delete from Scriptures table given a specific ID
+    if (IsPost && !Request["buttonDelete"].IsEmpty())
+    {
+        scriptureId = Request.Form["scriptureId"];
+        var db = Database.Open("WebPagesScriptures");
+        var deleteCommand = "DELETE FROM Scriptures WHERE ID = @0";
+        db.Execute(deleteCommand, scriptureId);
+        Response.Redirect("~/Scriptures");
+    }
+}
+
+<h2>Delete a Scripture</h2>
+@Html.ValidationSummary()
+<form method="post">
+    <fieldset>
+        <legend>Scripture Information</legend>
+
+        <p>
+            <span>Book:</span>
+            <span>@book</span>
+        </p>
+
+        <p>
+            <span>Chapter:</span>
+            <span>@chapter</span>
+        </p>
+
+        <p>
+            <span>Verse:</span>
+            <span>@verse</span>
+        </p>
+
+        <p>
+            <span>Notes:</span>
+            <span>@note</span>
+        </p>
+
+        <input type="hidden" name="scriptureid" value="@scriptureId" />
+        <input type="submit" name="buttonDelete" value="Delete Scripture" />
+    </fieldset>
+</form>
+
+<p><a href="~/Scriptures">Return to scriptures listing</a></p>

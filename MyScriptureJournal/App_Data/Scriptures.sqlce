@@ -1,0 +1,12 @@
+﻿-- Script Date: 3/5/2018 5:07 PM  - ErikEJ.SqlCeScripting version 3.5.2.75
+CREATE TABLE [Scriptures] (
+  [Id] int IDENTITY (1,1)  NOT NULL
+, [Book] nvarchar(100)  NOT NULL
+, [Chapter] int  NOT NULL
+, [Verse] int  NOT NULL
+, [Note] nvarchar(150)  NOT NULL
+, [Date] datetime NOT NULL
+);
+GO
+ALTER TABLE [Scriptures] ADD CONSTRAINT [PK_Scriptures] PRIMARY KEY ([Id]);
+GO

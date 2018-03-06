@@ -1,0 +1,357 @@
+﻿/*** GENERAL STYLES ***/
+
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 60%;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 16px;
+    background-color: #fdb228;
+    line-height: 1.6em;
+    overflow-x: hidden;
+}
+
+.container {
+    min-height: 100%;
+    position: relative;
+    left: 10%;
+}
+
+/*** HEADER STYLES ***/
+
+header {
+    padding: 8px;
+    width: 80%;
+    background-color: #2956A8;
+    color: White;
+}
+
+nav {
+    width: 15%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: #C2D6B4;
+    z-index: 100;
+}
+
+nav ul {
+    height: 100%;
+    list-style-type: none;
+    margin: 50px auto;
+    z-index: 100;
+}
+
+nav ul:first-child {
+    padding-top: 80px;
+}
+
+nav ul li {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bolder;
+    font-weight: 900;
+    text-transform: uppercase;
+    padding-top: 10px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+nav ul li.active a {
+    color: #CD6C74;
+}
+
+nav ul li a:link {
+    color: #FFF;
+    font-size: 200%;
+    text-decoration: none;
+}
+
+nav ul li a:visited {
+    color: #FFF;
+}
+
+nav ul li a:hover {
+    color: #ABB2BF;
+}
+
+nav ul li a:active {
+    color: #CD6C74;
+}
+
+/*** HAMBURGER MENU BAR STYLES ***/
+/* Reference from Sliding Menu assignment in WDD-331 Advanced CSS*/
+
+.menu-icon {
+    position: fixed;
+    top: 2%;
+    right: 11%;
+    z-index: 100;
+    cursor: pointer; /* pointer shown when hovering over menu icon */
+    z-index: 101;
+}
+
+.ham-bar-1,
+.ham-bar-2,
+.ham-bar-3 {
+    width: 50px;
+    height: 7px;
+    margin-top: 5px;
+    transition: all 0.75s ease;
+    background-color: #C2D6B4;
+}
+
+/* hamburger menu icon style when hovered */
+.menu-icon:hover .ham-bar-1,
+.menu-icon:hover .ham-bar-2,
+.menu-icon:hover .ham-bar-3 {
+    background-color: #ABB2BF;
+}
+
+.menu-icon:active .ham-bar-1,
+.menu-icon:active .ham-bar-2,
+.menu-icon:active .ham-bar-3 {
+    background-color: #CD6C74;
+}
+
+/* These next few stylings pertain to the transition between the hamburger menu icon and the X icon */
+.ham-switch .ham-bar-1 {
+    transform: rotate(-45deg) translate(-10px, 5px);
+    background-color: #C2D6B4;
+}
+
+.ham-switch .ham-bar-2 {
+    opacity: 0;
+}
+
+.ham-switch .ham-bar-3 {
+    transform: rotate(45deg) translate(-11px, -7px);
+    background-color: #C2D6B4;
+}
+
+.ham-switch:hover .ham-bar-1,
+.ham-switch:hover .ham-bar-3 {
+    background-color: #ABB2BF;
+}
+
+.ham-switch:active .ham-bar-1,
+.ham-switch:active .ham-bar-3 {
+    background-color: #CD6C74;
+}
+
+/*** SLIDING MENU STYLES ***/
+/* Reference from Sliding Menu assignment in WDD-331 Advanced CSS*/
+
+.menu {
+    height: 100%;
+    margin: 0;
+    width: 0;
+    overflow: hidden; /* I don't want the menu to show until toggled */
+}
+
+.open {
+    width: 15%;
+    background-color: #18191c;
+}
+
+/* Menu will stay positioned absolute at the top left of the screen, where the transition will have an ease of .75 seconds */
+.open,
+.menu {
+    position: fixed;
+    overflow-x: hidden;
+    top: 0;
+    right: 0;
+    transition: all 0.75s ease;
+    z-index: 100;
+}
+
+/*** MAIN STYLES ***/
+
+main {
+    width: 80%;
+    padding: 8px;
+    padding-bottom: 4em;
+    background-color: White;
+    box-shadow: 6px 25px 25px 0px black;
+}
+
+h1 {
+    font-size: 2.6em;
+    font-family: 'Anton', sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding-left: 1em;
+}
+
+h1 a {
+    color: white;
+    text-decoration: none;
+}
+
+h2 {
+    font-size: 1.6em;
+}
+
+p a {
+    padding: 10px;
+    background-color: #EAA423;
+}
+
+/*** FORM & TABLE STYLES ***/
+
+form, table {
+    margin-bottom: 10px;
+}
+
+h2, form, table, p a {
+    margin-left: 5px;
+}
+
+.head {
+    background-color: #2956A8;
+    font-weight: bold;
+    color: #FFF;
+}
+
+.grid th, .grid td {
+    border: 1px solid #C0C0C0;
+    padding: 5px;
+}
+
+th a {
+    color: white;
+}
+
+td a {
+    color: #DC4859;
+}
+
+.alt {
+    background-color: #E8E8E8;
+    color: #000;
+}
+
+.selected {
+    background-color: Yellow;
+}
+
+span.caption {
+    width: 100px;
+}
+
+span.dataDisplay {
+    font-weight: bold;
+}
+
+.field-validation-error {
+    font-weight: bold;
+    color: red;
+    background-color: yellow;
+}
+
+.validation-summary-errors {
+    border: 2px dashed red;
+    color: red;
+    background-color: yellow;
+    font-weight: bold;
+    margin: 12px;
+}
+
+input[type="text"] {
+    display: block;
+}
+
+input[type="submit"] {
+    margin-top: .5em;
+    width: 12.5em;
+    padding: 5px 0;
+    background-color: #DC4859;
+}
+
+input[type="submit"]:last-of-type {
+    margin-bottom: .5em;
+}
+
+input[type="submit"], p a {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bolder;
+    color: white;
+    border-radius: 4px;
+    border: 2px solid #000;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover, p a:hover {
+    background-color: #838E9F;
+}
+
+input[type="submit"]:active, p a:active {
+    background-color: #2F2E2E;
+}
+
+/*** FOOTER ***/
+
+footer {
+    width: 80%;
+    height: 2em;
+    padding: 8px;
+    margin-top: -2em;
+    background-color: #2956A8;
+    color: white;
+}
+
+/*** TRANSITION LINK STYLES ***/
+
+p a, h1 a, td a {
+    position: relative;
+    text-decoration: none;
+}
+
+p a:hover, h1 a:hover {
+    color: white;
+}
+
+td a:hover {
+    color: #2956A8;
+}
+
+p a:before, h1 a:before, td a:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    visibility: hidden;
+    -webkit-transform: scaleX(0);
+    transform: scaleX(0);
+    -webkit-transition: all 0.3s ease-in-out 0s;
+    transition: all 0.3s ease-in-out 0s;
+}
+
+p a:before {
+    background-color: #000;
+    height: 2px;
+}
+
+h1 a:before {
+    background-color: White;
+    height: 6px;
+}
+
+td a:before {
+    background-color: #2956A8;
+    height: 2px;
+}
+
+p a:hover:before, h1 a:hover:before, td a:hover:before {
+    visibility: visible;
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
+}
+/* Citation for hover transition (modified to suit the website): http://tobiasahlin.com/blog/css-trick-animating-link-underlines/ */
